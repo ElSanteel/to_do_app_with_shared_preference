@@ -9,7 +9,7 @@ part 'todo_state.dart';
 class TodoCubit extends Cubit<TodoState> {
   TodoCubit() : super(TodoInitial());
   static TodoCubit get(context) => BlocProvider.of(context);
-  String selectedCategory = 'Task'; // Default category
+  String selectedCategory = 'Task';
   bool isCategorySelected = false;
   String taskTitle = '';
   String? taskTime;
@@ -48,7 +48,6 @@ class TodoCubit extends Cubit<TodoState> {
     ),
   ];
 
-  // Function to toggle the completion status of a task
   void toggleTaskCompletion(Task task) {
     if (task.completed) {
       // Move the task from completed to uncompleted
@@ -59,15 +58,7 @@ class TodoCubit extends Cubit<TodoState> {
       uncompletedTasks.remove(task);
       completedTasks.add(task);
     }
-    task.completed = !task.completed; // Toggle the completion status
-    emit(TodoLoaded(uncompletedTasks, completedTasks));
-  }
-
-  // Function to initialize the cubit with initial tasks
-  void initializeTasks(
-      List<Task> initialUncompleted, List<Task> initialCompleted) {
-    uncompletedTasks = initialUncompleted;
-    completedTasks = initialCompleted;
+    task.completed = !task.completed;
     emit(TodoLoaded(uncompletedTasks, completedTasks));
   }
 
@@ -93,24 +84,5 @@ class TodoCubit extends Cubit<TodoState> {
     selectedCategory = 'Goal';
     isCategorySelected = true;
     emit(GoalSelectedState());
-  }
-
-  // Function to add a new task to the list of uncompleted tasks
-  void addNewTask() {
-    if (taskTitle.isNotEmpty && isCategorySelected) {
-      final Task newTask = Task(
-        imagePath: 'assets/images/$selectedCategory.png',
-        title: taskTitle,
-        subtitle: taskTime,
-        completed: false,
-      );
-
-      // Access the TodoCubit and add the new task
-      final todoCubit = TodoCubit.get(context);
-      todoCubit.addTask(newTask);
-
-      // Navigate back to the TodoScreen
-      Navigator.pop(context);
-    }
   }
 }

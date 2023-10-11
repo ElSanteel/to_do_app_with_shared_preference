@@ -4,24 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/todo_cubit.dart';
 import '../components/build_list_tile.dart';
 import '../core/size_config.dart';
-import 'Add_task.dart';
+import 'add_task.dart';
 
-class TodoScreen extends StatefulWidget {
+class TodoScreen extends StatelessWidget {
   const TodoScreen({super.key});
-
-  @override
-  State<TodoScreen> createState() => _TodoScreenState();
-}
-
-class _TodoScreenState extends State<TodoScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    final todoCubit = TodoCubit.get(context);
-    todoCubit.initializeTasks(
-        todoCubit.uncompletedTasks, todoCubit.completedTasks);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,12 +119,7 @@ class _TodoScreenState extends State<TodoScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AddNewTaskScreen(
-                            uncompletedTasks: cubit.uncompletedTasks,
-                            onTaskAdded: (updatedTasks) {
-                              cubit.uncompletedTasks = updatedTasks;
-                            },
-                          ),
+                          builder: (context) => const AddNewTaskScreen(),
                         ),
                       );
                     },

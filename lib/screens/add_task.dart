@@ -7,17 +7,9 @@ import '../blocs/todo_cubit.dart';
 import '../components/add_new_task_text_field.dart';
 import '../components/category_icon.dart';
 import '../components/custom_text.dart';
-import '../model/task_model.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
-  final List<Task> uncompletedTasks;
-  final Function(List<Task>) onTaskAdded;
-
-  const AddNewTaskScreen({
-    Key? key,
-    required this.uncompletedTasks,
-    required this.onTaskAdded,
-  }) : super(key: key);
+  const AddNewTaskScreen({super.key});
 
   @override
   State<AddNewTaskScreen> createState() => _AddNewTaskScreenState();

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:todo_app_with_shared_preference/components/build_task_list.dart';
 import '../blocs/todo_cubit.dart';
-import '../components/build_task_list.dart';
 import '../core/size_config.dart';
 import 'add_task.dart';
 
@@ -49,38 +48,22 @@ class TodoScreen extends StatelessWidget {
               Positioned(
                 top: 170,
                 left: 23,
-                child: Container(
-                  width: SizeConfig.screenWidth! * 0.9,
-                  height: SizeConfig.screenHeight! * 0.3,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TaskListView(
-                        tasks: cubit.uncompletedTasks, cubit: cubit),
-                  ),
-                ),
+                child: BuildTaskListView(
+                    tasks: cubit.uncompletedTasks, cubit: cubit),
               ),
               const Positioned(
-                  top: 450,
-                  left: 25,
-                  child: Text(
-                    "Completed",
-                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
-                  )),
+                top: 450,
+                left: 25,
+                child: Text(
+                  "Completed",
+                  style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                ),
+              ),
               Positioned(
                 bottom: 200,
                 left: 23,
-                child: Container(
-                  width: SizeConfig.screenWidth! * 0.9,
-                  height: SizeConfig.screenHeight! * 0.2,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  child:
-                      TaskListView(tasks: cubit.completedTasks, cubit: cubit),
-                ),
+                child: BuildTaskListView(
+                    tasks: cubit.completedTasks, cubit: cubit),
               ),
               Positioned(
                 left: 50,

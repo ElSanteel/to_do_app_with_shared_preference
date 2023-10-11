@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/todo_cubit.dart';
-import '../components/build_list_tile.dart';
+import '../components/build_task_list.dart';
 import '../core/size_config.dart';
 import 'add_task.dart';
 
@@ -39,7 +40,9 @@ class TodoScreen extends StatelessWidget {
                       size: 27,
                       color: Color(0xff4A3780),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      SystemNavigator.pop();
+                    },
                   ),
                 ),
               ),
@@ -54,23 +57,8 @@ class TodoScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20)),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: cubit.uncompletedTasks.length,
-                      itemBuilder: (context, index) {
-                        final task = cubit.uncompletedTasks[index];
-                        return CustomListTile(
-                          imagePath: task.imagePath,
-                          title: task.title,
-                          subtitle: task.subtitle,
-                          completed: task.completed,
-                          // Pass the toggle function as a callback
-                          onCheckboxChanged: (bool? value) {
-                            cubit.toggleTaskCompletion(task);
-                          },
-                        );
-                      },
-                    ),
+                    child: TaskListView(
+                        tasks: cubit.uncompletedTasks, cubit: cubit),
                   ),
                 ),
               ),
@@ -90,22 +78,8 @@ class TodoScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20)),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: cubit.completedTasks.length,
-                    itemBuilder: (context, index) {
-                      final task = cubit.completedTasks[index];
-                      return CustomListTile(
-                        imagePath: task.imagePath,
-                        title: task.title,
-                        subtitle: task.subtitle,
-                        completed: task.completed,
-                        onCheckboxChanged: (bool? value) {
-                          cubit.toggleTaskCompletion(task);
-                        },
-                      );
-                    },
-                  ),
+                  child:
+                      TaskListView(tasks: cubit.completedTasks, cubit: cubit),
                 ),
               ),
               Positioned(

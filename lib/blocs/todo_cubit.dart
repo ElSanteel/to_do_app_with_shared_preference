@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -9,11 +10,8 @@ part 'todo_state.dart';
 class TodoCubit extends Cubit<TodoState> {
   TodoCubit() : super(TodoInitial());
   static TodoCubit get(context) => BlocProvider.of(context);
-  String selectedCategory = 'Task';
-  bool isCategorySelected = false;
-  String taskTitle = '';
-  String? taskTime;
 
+  GlobalKey formKey = GlobalKey<FormState>();
   List<Task> uncompletedTasks = [
     Task(
       imagePath: "assets/images/Task.png",
@@ -59,30 +57,40 @@ class TodoCubit extends Cubit<TodoState> {
       completedTasks.add(task);
     }
     task.completed = !task.completed;
-    emit(TodoLoaded(uncompletedTasks, completedTasks));
+    emit(TodoLoaded(
+        uncompletedTasks: uncompletedTasks, completedTasks: completedTasks));
   }
 
-  void selectCategory(String category) {
-    selectedCategory = category;
-    isCategorySelected = true;
-    emit(SelectCategoryState());
-  }
+  TextEditingController titleController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  String? selectedCategory;
+  bool isCategorySelected = false;
+  String imagePath = '';
 
   void taskSelected() {
     selectedCategory = 'Task';
     isCategorySelected = true;
+    imagePath = "assets/images/Task.png";
     emit(TaskSelectedState());
   }
 
   void eventSelected() {
     selectedCategory = 'Event';
     isCategorySelected = true;
+    imagePath = "assets/images/Event.png";
     emit(EventSelectedState());
   }
 
   void goalSelected() {
     selectedCategory = 'Goal';
     isCategorySelected = true;
+    imagePath = "assets/images/Goal.png";
     emit(GoalSelectedState());
+  }
+
+  void addTask({required Task task}) {
+    uncompletedTasks.add(task);
+
+    emit(AddTaskState());
   }
 }

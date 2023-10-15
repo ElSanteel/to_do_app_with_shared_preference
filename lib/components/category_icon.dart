@@ -5,13 +5,14 @@ class CategoryIcon extends StatelessWidget {
   Color iconColor;
   String imagePath;
   final VoidCallback onTap; // Add an onTap callback
+  bool isSelected;
 
   CategoryIcon(
       {required this.containerColor,
       required this.iconColor,
       required this.imagePath,
-      required this.onTap, // Include onTap in the constructor
-
+      required this.onTap,
+      required this.isSelected,
       super.key});
 
   @override
@@ -24,7 +25,9 @@ class CategoryIcon extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
-            color: Colors.white, // Border color
+            color: isSelected
+                ? Colors.purple
+                : Colors.white, // Change border color based on isSelected
             width: 2.0, // Border width
           ),
         ),

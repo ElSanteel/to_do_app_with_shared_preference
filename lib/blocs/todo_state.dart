@@ -9,7 +9,7 @@ class TodoLoaded extends TodoState {
   final List<Task> uncompletedTasks;
   final List<Task> completedTasks;
 
-  TodoLoaded(this.uncompletedTasks, this.completedTasks);
+  TodoLoaded({required this.uncompletedTasks, required this.completedTasks});
 }
 
 class SelectCategoryState extends TodoState {}
@@ -19,3 +19,5 @@ class TaskSelectedState extends TodoState {}
 class EventSelectedState extends TodoState {}
 
 class GoalSelectedState extends TodoState {}
+
+class AddTaskState extends TodoState {}

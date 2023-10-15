@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app_with_shared_preference/components/build_task_list.dart';
+import 'package:todo_app_with_shared_preference/components/custom_elevated_button.dart';
+import 'package:todo_app_with_shared_preference/model/task_model.dart';
+import 'package:todo_app_with_shared_preference/screens/add_task.dart';
 import '../blocs/todo_cubit.dart';
 import '../core/size_config.dart';
-import 'add_task.dart';
 
 class TodoScreen extends StatelessWidget {
-  const TodoScreen({super.key});
+  final Task? newTask;
+  const TodoScreen({super.key, this.newTask});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,7 @@ class TodoScreen extends StatelessWidget {
                     tasks: cubit.uncompletedTasks, cubit: cubit),
               ),
               const Positioned(
-                top: 450,
+                top: 435,
                 left: 25,
                 child: Text(
                   "Completed",
@@ -60,7 +63,7 @@ class TodoScreen extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 200,
+                bottom: 140,
                 left: 23,
                 child: BuildTaskListView(
                     tasks: cubit.completedTasks, cubit: cubit),
@@ -71,25 +74,16 @@ class TodoScreen extends StatelessWidget {
                 child: SizedBox(
                   width: SizeConfig.screenWidth! * 0.8,
                   height: SizeConfig.screenHeight! * 0.06,
-                  child: ElevatedButton(
-                    onPressed: () {
+                  child: CustomElevatedButton(
+                    content: "Add New Task",
+                    buttonFunction: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const AddNewTaskScreen(),
+                          builder: (context) => AddNewTaskScreen(),
                         ),
                       );
                     },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      backgroundColor: const Color(0xFF4A3780),
-                    ),
-                    child: const Text(
-                      "add to task",
-                      style: TextStyle(fontSize: 15),
-                    ),
                   ),
                 ),
               )

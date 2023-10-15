@@ -13,8 +13,8 @@ class AppRoot extends StatelessWidget {
       providers: [
         BlocProvider(create: (BuildContext context) => TodoCubit()),
       ],
-      child: (const MaterialApp(
-          debugShowCheckedModeBanner: false, home: TodoScreen())),
+      child:
+          (MaterialApp(debugShowCheckedModeBanner: false, home: TodoScreen())),
     );
   }
 }

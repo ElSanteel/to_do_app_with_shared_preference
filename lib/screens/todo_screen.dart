@@ -7,10 +7,15 @@ import 'package:todo_app_with_shared_preference/model/task_model.dart';
 import 'package:todo_app_with_shared_preference/screens/add_task.dart';
 import '../blocs/todo_cubit.dart';
 import '../core/size_config.dart';
+import '../service/shared_prefrence_helper.dart';
 
 class TodoScreen extends StatelessWidget {
-  final Task? newTask;
-  const TodoScreen({super.key, this.newTask});
+  List<Task> uncompletedTasks =
+      SharedPreferenceHelper.getData(key: 'uncompletedTasks') ?? [];
+  List<Task> completedTasks =
+      SharedPreferenceHelper.getData(key: 'completedTasks') ?? [];
+
+  TodoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class TodoScreen extends StatelessWidget {
                   backgroundColor: Colors.white,
                   child: IconButton(
                     icon: const Icon(
-                      Icons.keyboard_arrow_left,
+                      Icons.close,
                       size: 27,
                       color: Color(0xff4A3780),
                     ),
@@ -80,7 +85,7 @@ class TodoScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AddNewTaskScreen(),
+                          builder: (context) => const AddNewTaskScreen(),
                         ),
                       );
                     },

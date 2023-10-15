@@ -21,3 +21,5 @@ class EventSelectedState extends TodoState {}
 class GoalSelectedState extends TodoState {}
 
 class AddTaskState extends TodoState {}
+
+class ClearFieldsState extends TodoState {}

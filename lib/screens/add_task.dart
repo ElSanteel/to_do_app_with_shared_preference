@@ -11,7 +11,7 @@ import '../components/custom_text.dart';
 import '../model/task_model.dart';
 
 class AddNewTaskScreen extends StatelessWidget {
-  AddNewTaskScreen({super.key});
+  const AddNewTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -182,19 +182,32 @@ class AddNewTaskScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 50.0),
                     child: CustomElevatedButton(
                       buttonFunction: () {
-                        cubit.addTask(
+                        if (cubit.formKey.currentState!.validate()) {
+                          // Form is valid, proceed with adding the task
+                          cubit.addTask(
                             task: Task(
-                                imagePath: cubit.imagePath,
-                                title: "${cubit.titleController}",
-                                completed: false,
-                                subtitle: "${cubit.timeController}"));
+                              imagePath: cubit.imagePath,
+                              title: cubit.titleController.text,
+                              completed: false,
+                              subtitle: cubit.timeController.text,
+                            ),
+                          );
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TodoScreen(),
-                          ),
-                        );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TodoScreen(),
+                            ),
+                          );
+                          cubit.clearFields();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  'Please fill out all required fields and fix any errors.'),
+                            ),
+                          );
+                        }
                       },
                       content: 'Save',
                     ),

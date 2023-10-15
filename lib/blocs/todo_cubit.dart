@@ -2,16 +2,19 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-
 import '../model/task_model.dart';
-
+import '../service/shared_prefrence_helper.dart';
 part 'todo_state.dart';
 
 class TodoCubit extends Cubit<TodoState> {
   TodoCubit() : super(TodoInitial());
   static TodoCubit get(context) => BlocProvider.of(context);
-
-  GlobalKey formKey = GlobalKey<FormState>();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  String? selectedCategory;
+  bool isCategorySelected = false;
+  String imagePath = '';
+  var formKey = GlobalKey<FormState>();
   List<Task> uncompletedTasks = [
     Task(
       imagePath: "assets/images/Task.png",
@@ -61,12 +64,6 @@ class TodoCubit extends Cubit<TodoState> {
         uncompletedTasks: uncompletedTasks, completedTasks: completedTasks));
   }
 
-  TextEditingController titleController = TextEditingController();
-  TextEditingController timeController = TextEditingController();
-  String? selectedCategory;
-  bool isCategorySelected = false;
-  String imagePath = '';
-
   void taskSelected() {
     selectedCategory = 'Task';
     isCategorySelected = true;
@@ -91,6 +88,17 @@ class TodoCubit extends Cubit<TodoState> {
   void addTask({required Task task}) {
     uncompletedTasks.add(task);
 
+    SharedPreferenceHelper.saveData(
+        key: 'uncompletedTasks', value: uncompletedTasks);
+    SharedPreferenceHelper.saveData(
+        key: 'completedTasks', value: completedTasks);
+
     emit(AddTaskState());
+  }
+
+  void clearFields() {
+    titleController.text = '';
+    timeController.text = '';
+    emit(ClearFieldsState());
   }
 }
